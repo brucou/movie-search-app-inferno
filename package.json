@@ -1,0 +1,25 @@
+{
+  "name": "redom-movie-app-with-state-machine",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "start": "parcel index.html --open",
+    "build": "parcel build index.html"
+  },
+  "dependencies": {
+    "emitonoff": "0.1.1",
+    "http2": "^3.3.7",
+    "hyperscript-helpers": "3.0.3",
+    "inferno-hyperscript": "7.1.1",
+    "json-patch-es6": "2.0.6",
+    "rxjs": "^6.3.3",
+    "state-transducer": "^0.10.1",
+    "superagent": "^4.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "7.2.0",
+    "parcel-bundler": "^1.6.1"
+  },
+  "keywords": ["demo", "inferno", "state machine"]
+}
