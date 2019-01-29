@@ -1,7 +1,7 @@
 {
-  "name": "redom-movie-app-with-state-machine",
+  "name": "inferno-movie-app-with-state-machine",
   "version": "1.0.0",
-  "description": "",
+  "description": "state machine and web component demo with inferno",
   "main": "index.html",
   "scripts": {
     "start": "parcel index.html --open",
