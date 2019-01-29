@@ -2,10 +2,10 @@ import "./uikit.css";
 import "./index.css";
 import { render } from "inferno";
 import { h } from "inferno-hyperscript";
-import { createStateMachine } from "state-transducer";
+import { createStateMachine, makeWebComponentFromFsm } from "state-transducer";
 import emitonoff from "emitonoff";
 import { movieSearchFsmDef, commandHandlers, effectHandlers, screens } from "./fsm";
-import { applyJSONpatch, makeWebComponentFromFsm } from "./helpers";
+import { applyJSONpatch } from "./helpers";
 import { COMMAND_RENDER, events } from "./properties";
 
 const fsm = createStateMachine(movieSearchFsmDef, {
