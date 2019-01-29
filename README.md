@@ -8,7 +8,7 @@ technologies are :
  - web components in order to have a reusable and portable implementation
  
  Portability was important as the underlying idea is to port this application into many different
-  front-end framworks. So far, implementation exists for :
+  front-end frameworks. So far, implementation exists for :
   - [nerv](https://github.com/brucou/movie-search-app-nerv)
 
 # Installation and execution
