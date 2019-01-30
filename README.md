@@ -1,7 +1,6 @@
 # Motivation
 This repository showcases the use of state machines to modelize user interfaces. The chosen 
 technologies are :
- is :
  - [hyperscript](https://github.com/infernojs/inferno) for describing the screens of the interface in a portable way
  - [inferno](https://github.com/infernojs/inferno) for rendering
  - [state-transducer](https://github.com/brucou/state-transducer) as state machine library
