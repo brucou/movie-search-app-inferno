@@ -5,7 +5,6 @@ import {
   MOVIE_SELECTION_ERROR, NETWORK_ERROR, NO_INTENT, POPULAR_NOW, PROMPT, screens as screenIds, SEARCH_RESULTS_FOR, START,
   testIds
 } from "./properties";
-import { filter, map, startWith } from "rxjs/operators";
 import { destructureEvent, makeQuerySlug, runMovieDetailQuery, runMovieSearchQuery } from "./helpers";
 import { h } from "inferno-hyperscript";
 import hyperscript from "hyperscript-helpers";
