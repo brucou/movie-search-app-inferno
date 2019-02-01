@@ -4,7 +4,8 @@ import { render } from "inferno";
 import { h } from "inferno-hyperscript";
 import { createStateMachine, makeWebComponentFromFsm } from "state-transducer";
 import emitonoff from "emitonoff";
-import { movieSearchFsmDef, commandHandlers, effectHandlers, screens } from "./fsm";
+import { screens } from "./screens";
+import { movieSearchFsmDef, commandHandlers, effectHandlers } from "./fsm";
 import { applyJSONpatch } from "./helpers";
 import { COMMAND_RENDER, events } from "./properties";
 
@@ -32,11 +33,7 @@ const infernoRenderCommandHandler = {
     render(screens(trigger)[screen](...args), el);
   }
 };
-const commandHandlersWithRender = Object.assign(
-  {},
-  commandHandlers,
-  infernoRenderCommandHandler
-);
+const commandHandlersWithRender = Object.assign({}, commandHandlers, infernoRenderCommandHandler);
 
 const options = { initialEvent: { [events.USER_NAVIGATED_TO_APP]: void 0 } };
 
