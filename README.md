@@ -10,13 +10,16 @@ technologies are :
   front-end frameworks. So far, implementation exists for :
   - [nerv](https://github.com/brucou/movie-search-app-nerv)
   - [react](https://codesandbox.io/s/kwn3lx2qx7)
-  
+  - [ivi](https://github.com/brucou/movie-search-app-ivi)
+
 # Installation and execution
 The application is built with parcel. To run it :
 
 `npm install`
 
 `npm run start`
+
+Alternatively, you can peruse the [codesandbox](https://codesandbox.io/s/9zjo5yx8po).
 
 # State machine
 The state machine modelizing the search application is as follows :
