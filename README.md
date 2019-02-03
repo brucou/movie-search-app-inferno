@@ -11,6 +11,7 @@ technologies are :
   - [nerv](https://github.com/brucou/movie-search-app-nerv)
   - [react](https://codesandbox.io/s/kwn3lx2qx7)
   - [ivi](https://github.com/brucou/movie-search-app-ivi)
+  - [svelte](https://github.com/brucou/movie-search-app-svelte)
 
 # Installation and execution
 The application is built with parcel. To run it :
