@@ -1,15 +1,8 @@
 import { h } from "inferno-hyperscript";
 import hyperscript from "hyperscript-helpers";
 import {
-  testIds,
-  events,
-  screens as screenIds,
-  NETWORK_ERROR,
-  POPULAR_NOW,
-  PROMPT,
-  IMAGE_TMDB_PREFIX,
-  LOADING,
-  SEARCH_RESULTS_FOR
+  events, IMAGE_TMDB_PREFIX, LOADING, NETWORK_ERROR, POPULAR_NOW, PROMPT, screens as screenIds, SEARCH_RESULTS_FOR,
+  testIds
 } from "./properties";
 
 const { div, a, ul, li, input, h1, h3, legend, img, dl, dt, dd } = hyperscript(
@@ -375,171 +368,114 @@ export const screens = next => {
         ]
       ),
     [SEARCH_RESULTS_WITH_MOVIE_DETAILS]: ({ results, query, details, cast }) =>
-      div(
-        ".App.uk-light.uk-background-secondary",
-        { "data-active-page": "item" },
-        [
-          div(
-            ".App__view-container",
-            { onClick: eventHandlers[MOVIE_DETAILS_DESELECTED] },
-            [
-              div(
-                ".App__view.uk-margin-top-small.uk-margin-left.uk-margin-right",
-                { "data-page": "home" },
+      div(".App.uk-light.uk-background-secondary", { "data-active-page": "item" }, [
+        div(".App__view-container", { onClick: eventHandlers[MOVIE_DETAILS_DESELECTED] }, [
+          div(".App__view.uk-margin-top-small.uk-margin-left.uk-margin-right", { "data-page": "home" }, [
+            div(".HomePage", [
+              h1([`TMDb UI – Home`]),
+              legend(".uk-legend", { "data-testid": PROMPT_TESTID }, [
+                PROMPT
+              ]),
+              div(".SearchBar.uk-inline.uk-margin-bottom", [
+                a(".uk-form-icon.uk-form-icon-flip.js-clear", {
+                  "uk-icon":
+                    query.length > 0 ? "icon:close" : "icon:search",
+                  onClick: eventHandlers[QUERY_RESETTED]
+                }),
+                input(".SearchBar__input.uk-input.js-input", {
+                  type: "text",
+                  value: query,
+                  onInput: eventHandlers[QUERY_CHANGED],
+                  "data-testid": QUERY_FIELD_TESTID
+                })
+              ]),
+              h3(
+                ".uk-heading-bullet.uk-margin-remove-top",
+                { "data-testid": RESULTS_HEADER_TESTID },
                 [
-                  div(".HomePage", [
-                    h1([`TMDb UI – Home`]),
-                    legend(".uk-legend", { "data-testid": PROMPT_TESTID }, [
-                      PROMPT
-                    ]),
-                    div(".SearchBar.uk-inline.uk-margin-bottom", [
-                      a(".uk-form-icon.uk-form-icon-flip.js-clear", {
-                        "uk-icon":
-                          query.length > 0 ? "icon:close" : "icon:search",
-                        onClick: eventHandlers[QUERY_RESETTED]
-                      }),
-                      input(".SearchBar__input.uk-input.js-input", {
-                        type: "text",
-                        value: query,
-                        onInput: eventHandlers[QUERY_CHANGED],
-                        "data-testid": QUERY_FIELD_TESTID
-                      })
-                    ]),
-                    h3(
-                      ".uk-heading-bullet.uk-margin-remove-top",
-                      { "data-testid": RESULTS_HEADER_TESTID },
-                      [
-                        query.length === 0
-                          ? POPULAR_NOW
-                          : SEARCH_RESULTS_FOR(query)
-                      ]
-                    ),
-                    div(
-                      ".ResultsContainer",
-                      { "data-testid": RESULTS_CONTAINER_TESTID },
-                      [
-                        ul(".uk-thumbnav", [
-                          results &&
-                          results
-                            .filter(result => result.backdrop_path)
-                            .map(result =>
-                              li(".uk-margin-bottom", { key: result.id }, [
-                                a(
-                                  ".ResultsContainer__result-item.js-result-click",
-                                  {
-                                    href: "#",
-                                    onClick: ev =>
-                                      eventHandlers[MOVIE_SELECTED](
-                                        ev,
-                                        result
-                                      ),
-                                    "data-id": result.id
-                                  },
-                                  [
-                                    div(
-                                      ".ResultsContainer__thumbnail-holder",
-                                      [
-                                        img({
-                                          src: `${IMAGE_TMDB_PREFIX}${
-                                            result.backdrop_path
-                                            }`,
-                                          alt: "",
-                                          "data-testid": MOVIE_IMG_SRC_TESTID
-                                        })
-                                      ]
-                                    ),
-                                    div(
-                                      ".ResultsContainer__caption.uk-text-small.uk-text-muted",
-                                      { "data-testid": MOVIE_TITLE_TESTID },
-                                      [result.title]
-                                    )
-                                  ]
-                                )
-                              ])
-                            )
-                        ])
-                      ]
-                    )
-                  ])
+                  query.length === 0
+                    ? POPULAR_NOW
+                    : SEARCH_RESULTS_FOR(query)
                 ]
               ),
-              div(
-                ".App__view.uk-margin-top-small.uk-margin-left.uk-margin-right",
-                { "data-page": "item" },
-                [
-                  div([
-                    h1([details.title || ""]),
-                    div(".MovieDetailsPage", [
-                      div(
-                        ".MovieDetailsPage__img-container.uk-margin-right",
-                        {
-                          style: { float: "left" }
-                        },
-                        [
-                          img({
-                            src: `http://image.tmdb.org/t/p/w342${
-                              details.poster_path
-                              }`,
-                            alt: ""
-                          })
-                        ]
-                      ),
-                      dl(".uk-description-list", [
-                        dt([`Popularity`]),
-                        dd([details.vote_average]),
-                        dt([`Overview`]),
-                        dd([details.overview]),
-                        dt([`Genres`]),
-                        dd([details.genres.map(g => g.name).join(", ")]),
-                        dt([`Starring`]),
-                        dd([
-                          cast.cast
-                            .slice(0, 3)
-                            .map(cast => cast.name)
-                            .join(", ")
-                        ]),
-                        dt([`Languages`]),
-                        dd([
-                          details.spoken_languages.map(g => g.name).join(", ")
-                        ]),
-                        dt([`Original Title`]),
-                        dd([details.original_title]),
-                        dt([`Release Date`]),
-                        dd([details.release_date]),
-                        details.imdb_id && dt([`IMDb URL`]),
-                        details.imdb_id &&
-                        dd([
-                          a(
-                            {
-                              href: `https://www.imdb.com/title/${
-                                details.imdb_id
-                                }/`
-                            },
-                            [`https://www.imdb.com/title/${details.imdb_id}/`]
-                          )
-                        ])
+              div(".ResultsContainer", { "data-testid": RESULTS_CONTAINER_TESTID }, [
+                ul(".uk-thumbnav", [
+                  results &&
+                  results
+                    .filter(result => result.backdrop_path)
+                    .map(result =>
+                      li(".uk-margin-bottom", { key: result.id }, [
+                        a(".ResultsContainer__result-item.js-result-click", {
+                            href: "#",
+                            onClick: ev =>
+                              eventHandlers[MOVIE_SELECTED](ev, result),
+                            "data-id": result.id
+                          }, [
+                            div(".ResultsContainer__thumbnail-holder", [
+                              img({
+                                src: `${IMAGE_TMDB_PREFIX}${result.backdrop_path}`,
+                                alt: "",
+                                "data-testid": MOVIE_IMG_SRC_TESTID
+                              })
+                            ]),
+                            div(
+                              ".ResultsContainer__caption.uk-text-small.uk-text-muted",
+                              { "data-testid": MOVIE_TITLE_TESTID },
+                              [result.title]
+                            )
+                          ]
+                        )
                       ])
+                    )
+                ])
+              ])
+            ])
+          ]),
+          div(".App__view.uk-margin-top-small.uk-margin-left.uk-margin-right", { "data-page": "item" }, [
+            div([
+              h1([details.title || ""]),
+              div(".MovieDetailsPage", [
+                div(".MovieDetailsPage__img-container.uk-margin-right", { style: { float: "left" } }, [
+                  img({ src: `http://image.tmdb.org/t/p/w342${details.poster_path}`, alt: "" })
+                ]),
+                dl(".uk-description-list", [
+                  dt([`Popularity`]),
+                  dd([details.vote_average]),
+                  dt([`Overview`]),
+                  dd([details.overview]),
+                  dt([`Genres`]),
+                  dd([details.genres.map(g => g.name).join(", ")]),
+                  dt([`Starring`]),
+                  dd([
+                    cast.cast
+                      .slice(0, 3)
+                      .map(cast => cast.name)
+                      .join(", ")
+                  ]),
+                  dt([`Languages`]),
+                  dd([
+                    details.spoken_languages.map(g => g.name).join(", ")
+                  ]),
+                  dt([`Original Title`]),
+                  dd([details.original_title]),
+                  dt([`Release Date`]),
+                  dd([details.release_date]),
+                  details.imdb_id && dt([`IMDb URL`]),
+                  details.imdb_id && dd([
+                    a({ href: `https://www.imdb.com/title/${details.imdb_id}/` }, [
+                      `https://www.imdb.com/title/${details.imdb_id}/`
                     ])
                   ])
-                ]
-              )
-            ]
-          )
-        ]
-      ),
+                ])
+              ])
+            ])
+          ])
+        ])
+      ]),
     [SEARCH_RESULTS_WITH_MOVIE_DETAILS_ERROR]: ({ results, query, title }) =>
-      div(
-        ".App.uk-light.uk-background-secondary",
-        { "data-active-page": "item" },
-        [
-          div(
-            ".App__view-container",
-            { onClick: eventHandlers[MOVIE_DETAILS_DESELECTED] },
-            [
-              div(
-                ".App__view.uk-margin-top-small.uk-margin-left.uk-margin-right",
-                { "data-page": "home" },
-                [
+      div(".App.uk-light.uk-background-secondary", { "data-active-page": "item" }, [
+          div(".App__view-container", { onClick: eventHandlers[MOVIE_DETAILS_DESELECTED] }, [
+              div(".App__view.uk-margin-top-small.uk-margin-left.uk-margin-right", { "data-page": "home" }, [
                   div(".HomePage", [
                     h1([`TMDb UI – Home`]),
                     legend(".uk-legend", { "data-testid": PROMPT_TESTID }, [
@@ -547,8 +483,7 @@ export const screens = next => {
                     ]),
                     div(".SearchBar.uk-inline.uk-margin-bottom", [
                       a(".uk-form-icon.uk-form-icon-flip.js-clear", {
-                        "uk-icon":
-                          query.length > 0 ? "icon:close" : "icon:search",
+                        "uk-icon": query.length > 0 ? "icon:close" : "icon:search",
                         onClick: eventHandlers[QUERY_RESETTED]
                       }),
                       input(".SearchBar__input.uk-input.js-input", {
@@ -558,44 +493,28 @@ export const screens = next => {
                         "data-testid": QUERY_FIELD_TESTID
                       })
                     ]),
-                    h3(
-                      ".uk-heading-bullet.uk-margin-remove-top",
-                      { "data-testid": RESULTS_HEADER_TESTID },
-                      [
+                    h3(".uk-heading-bullet.uk-margin-remove-top", { "data-testid": RESULTS_HEADER_TESTID }, [
                         query.length === 0
                           ? POPULAR_NOW
                           : SEARCH_RESULTS_FOR(query)
                       ]
                     ),
-                    div(
-                      ".ResultsContainer",
-                      { "data-testid": RESULTS_CONTAINER_TESTID },
-                      [
+                    div(".ResultsContainer", { "data-testid": RESULTS_CONTAINER_TESTID }, [
                         ul(".uk-thumbnav", [
                           results &&
                           results
                             .filter(result => result.backdrop_path)
                             .map(result =>
                               li(".uk-margin-bottom", { key: result.id }, [
-                                a(
-                                  ".ResultsContainer__result-item.js-result-click",
-                                  {
+                                a(".ResultsContainer__result-item.js-result-click", {
                                     href: "#",
-                                    onClick: ev =>
-                                      eventHandlers[MOVIE_SELECTED](
-                                        ev,
-                                        result
-                                      ),
+                                    onClick: ev => eventHandlers[MOVIE_SELECTED](ev, result),
                                     "data-id": result.id
                                   },
                                   [
-                                    div(
-                                      ".ResultsContainer__thumbnail-holder",
-                                      [
+                                    div(".ResultsContainer__thumbnail-holder", [
                                         img({
-                                          src: `${IMAGE_TMDB_PREFIX}${
-                                            result.backdrop_path
-                                            }`,
+                                          src: `${IMAGE_TMDB_PREFIX}${result.backdrop_path}`,
                                           alt: "",
                                           "data-testid": MOVIE_IMG_SRC_TESTID
                                         })
