@@ -3,29 +3,14 @@ import "./index.css";
 import { render } from "inferno";
 import { h } from "inferno-hyperscript";
 import { createStateMachine, makeWebComponentFromFsm } from "state-transducer";
-import emitonoff from "emitonoff";
 import { screens } from "./screens";
 import { movieSearchFsmDef, commandHandlers, effectHandlers } from "./fsm";
-import { applyJSONpatch } from "./helpers";
 import { COMMAND_RENDER, events } from "./properties";
+import { eventEmitterAdapter } from "./helpers";
 
 const fsm = createStateMachine(movieSearchFsmDef, {
-  updateState: applyJSONpatch,
   debug: { console }
 });
-
-function subjectFromEventEmitterFactory() {
-  const eventEmitter = emitonoff();
-  const DUMMY_NAME_SPACE = "_";
-  const _ = DUMMY_NAME_SPACE;
-  const subscribers = [];
-
-  return {
-    next: x => eventEmitter.emit(_, x),
-    complete: () => subscribers.forEach(f => eventEmitter.off(_, f)),
-    subscribe: f => (subscribers.push(f), eventEmitter.on(_, f))
-  };
-}
 
 const infernoRenderCommandHandler = {
   [COMMAND_RENDER]: (next, params, effectHandlers, el) => {
@@ -40,15 +25,17 @@ const commandHandlersWithRender = Object.assign(
   infernoRenderCommandHandler
 );
 
-const options = { initialEvent: { [events.USER_NAVIGATED_TO_APP]: void 0 } };
+const initialEvent = {
+  initialEvent: { [events.USER_NAVIGATED_TO_APP]: void 0 }
+};
 
 makeWebComponentFromFsm({
   name: "movie-search",
-  eventSubjectFactory: subjectFromEventEmitterFactory,
+  eventHandler: eventEmitterAdapter(),
   fsm,
   commandHandlers: commandHandlersWithRender,
   effectHandlers,
-  options
+  options: initialEvent
 });
 
 render(h("movie-search"), document.getElementById("root"));

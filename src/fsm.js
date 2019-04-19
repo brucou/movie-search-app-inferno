@@ -17,7 +17,8 @@ import {
 import {
   makeQuerySlug,
   runMovieDetailQuery,
-  runMovieSearchQuery
+  runMovieSearchQuery,
+  applyJSONpatch
 } from "./helpers";
 
 const NO_ACTIONS = () => ({ outputs: NO_OUTPUT, updates: NO_STATE_UPDATE });
@@ -390,7 +391,8 @@ const movieSearchFsmDef = {
   initialExtendedState,
   states,
   events: Object.values(events),
-  transitions
+  transitions,
+  updateState: applyJSONpatch
 };
 
 export { movieSearchFsmDef };

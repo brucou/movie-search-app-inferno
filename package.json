@@ -14,7 +14,7 @@
     "inferno-hyperscript": "7.1.1",
     "json-patch-es6": "2.0.6",
     "rxjs": "^6.3.3",
-    "state-transducer": "^0.10.2",
+    "state-transducer": "^0.15.0",
     "superagent": "^4.0.0"
   },
   "devDependencies": {
